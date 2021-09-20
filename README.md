@@ -56,7 +56,12 @@ python infer.py
 Thanks to [Nicholas Merci](https://github.com/nicholasmerci) and [Carlo Veronesi](https://github.com/carloveronesi) for the faithful implementation of the paper.
 
 ## Citation
-If you use Dataset or Code, please cite the following papers.
+If you use **VISUELLE** dataset or this paper implementation, please cite the following papers.
+
+```
+OURS
+
+```
 
 ```
 @inbook{10.1145/3394486.3403362,
@@ -73,7 +78,4 @@ numpages = {9}
 }
 ```
 
-```
-OURS
-}
-```
+
