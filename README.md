@@ -56,6 +56,24 @@ python infer.py
 Thanks to [Nicholas Merci](https://github.com/nicholasmerci) and [Carlo Veronesi](https://github.com/carloveronesi) for the faithful implementation of the paper.
 
 ## Citation
+If you use Dataset or Code, please cite the following papers.
+
 ```
-BibTex
+@inbook{10.1145/3394486.3403362,
+author = {Ekambaram, Vijay and Manglik, Kushagra and Mukherjee, Sumanta and Sajja, Surya Shravan Kumar and Dwivedi, Satyam and Raykar, Vikas},
+title = {Attention Based Multi-Modal New Product Sales Time-Series Forecasting},
+year = {2020},
+isbn = {9781450379984},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+url = {https://doi.org/10.1145/3394486.3403362},
+booktitle = {Proceedings of the 26th ACM SIGKDD International Conference on Knowledge Discovery &amp; Data Mining},
+pages = {3110–3118},
+numpages = {9}
+}
+```
+
+```
+OURS
+}
 ```
