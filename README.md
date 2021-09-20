@@ -53,6 +53,8 @@ To evaluate the model of the baselines please use the following scripts. Please 
 python infer.py
 ```
 
+Thanks to [Nicholas Merci](https://github.com/nicholasmerci) and [Carlo Veronesi](https://github.com/carloveronesi) for the faithful implementation of the paper.
+
 ## Citation
 ```
 BibTex
