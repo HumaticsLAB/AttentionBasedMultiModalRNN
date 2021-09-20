@@ -7,6 +7,8 @@ The repository contains the implementation of the following networks:
 - Residual Multimodal RNN
 - Explainable Cross-Attention RNN
 
+Thanks to [Nicholas Merci](https://github.com/nicholasmerci) and [Carlo Veronesi](https://github.com/carloveronesi) for the faithful implementation of the paper.
+
 ## Installation
 
 We suggest the use of VirtualEnv.
@@ -53,7 +55,6 @@ To evaluate the model of the baselines please use the following scripts. Please 
 python infer.py
 ```
 
-Thanks to [Nicholas Merci](https://github.com/nicholasmerci) and [Carlo Veronesi](https://github.com/carloveronesi) for the faithful implementation of the paper.
 
 ## Citation
 If you use **VISUELLE** dataset or this paper implementation, please cite the following papers.
