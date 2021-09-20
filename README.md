@@ -1,11 +1,16 @@
 # AttentionBasedMultiModalRNN
 An unofficial Pytorch implementation of [**Attention based Multi-Modal New Product Sales Time-series Forecasting**](https://dl.acm.org/doi/10.1145/3394486.3403362) paper.
 
-The repository contains the implementation of the following networks:
-- Image RNN
-- Concat Multimodal RNN
-- Residual Multimodal RNN
-- Explainable Cross-Attention RNN
+The repository contains the implementation of the following baselines:
+- KNN baselines:
+  - Attribute KNN
+  - Image KNN
+  - Attribute + Image KNN
+- Networks:
+  - Image RNN
+  - Concat Multimodal RNN
+  - Residual Multimodal RNN
+  - Explainable Cross-Attention RNN
 
 Thanks to [Nicholas Merci](https://github.com/nicholasmerci) and [Carlo Veronesi](https://github.com/carloveronesi) for the faithful implementation of the paper.
 
