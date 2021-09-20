@@ -1,5 +1,5 @@
 # AttentionBasedMultiModalRNN
-An unofficial Pytorch implementation of **Attention based Multi-Modal New Product Sales Time-series Forecasting** paper.
+An unofficial Pytorch implementation of [**Attention based Multi-Modal New Product Sales Time-series Forecasting**](https://dl.acm.org/doi/10.1145/3394486.3403362) paper.
 
 The repository contains the implementation of the following networks:
 - Image RNN
