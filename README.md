@@ -1,4 +1,5 @@
-# AttentionBasedMultiModalRNN
+# Attention based Multi-Modal New Product Sales Time-series Forecasting
+
 An unofficial Pytorch implementation of [**Attention based Multi-Modal New Product Sales Time-series Forecasting**](https://dl.acm.org/doi/10.1145/3394486.3403362) paper. We use multiple approaches from this code and the aforementioned paper in our work [**Well Googled is Half Done: Multimodal Forecasting of New Fashion Product Sales with Image-based Google Trends**](https://github.com/HumaticsLAB/GTM-Transformer)
 
 The repository contains the implementation of the following baselines:
