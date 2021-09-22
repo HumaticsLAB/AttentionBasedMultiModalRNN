@@ -75,7 +75,12 @@ python infer.py
 If you use **VISUELLE** dataset or this paper implementation, please cite the following papers.
 
 ```
-OURS
+@misc{skenderi2021googled,
+      title={Well Googled is Half Done: Multimodal Forecasting of New Fashion Product Sales with Image-based Google Trends}, 
+      author={Geri Skenderi and Christian Joppi and Matteo Denitto and Marco Cristani},
+      year={2021},
+      eprint={2109.09824},
+}
 
 ```
 
