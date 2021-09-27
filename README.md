@@ -44,7 +44,7 @@ unset INSTALL_DIR
 
 ## Dataset
 
-**VISUELLE** dataset is publicly available to download [here](https://drive.google.com/file/d/11Bn2efKfO_PbtdqsSqj8U6y6YgBlRcP6/view?usp=sharing). Please download and extract it inside the dataset folder.
+**VISUELLE** dataset is publicly available to download [here](https://bit.ly/3EUiI4P). Please download and extract it inside the dataset folder.
 
 ## Run KNNs
 To run the KNN models o please use the following scripts. Please check the arguments inside config.py and the dedicated arguments inside the script.
