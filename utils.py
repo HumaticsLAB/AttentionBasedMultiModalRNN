@@ -29,7 +29,7 @@ class CustomImageDataset(Dataset):
         # Category
         self.category = [categ_dict[x] for x in self.json_df['category'].tolist()]
         # Color
-        self.color = [color_dict[x] for x in self.json_df['exact_color'].tolist()]
+        self.color = [color_dict[x] for x in self.json_df['color'].tolist()]
         # Fabric
         self.fabric = [fabric_dict[x] for x in self.json_df['texture'].tolist()]
 
