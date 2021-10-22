@@ -204,7 +204,7 @@ def eval(cfg):
     print("Window: [" + str(cfg.window_test_start) + ',' + str(
         cfg.window_test_end) + '] - Tag: ' + cfg.save_tag + '\nMAE: ' + str(
         tot_mae) + '\nWAPE: ' + str(tot_wape))
-    print("\n{:.3f}\t{:.3f}\t{:.3f}\t{:.3f}\t{:.3f}\t{:.3f}".format(
+    print("\n{:.3f}\t{:.3f}".format(
             tot_mae,
             tot_wape).replace('.',','))
     os.makedirs(os.path.join(cfg.save_path, 'results', cfg.save_tag),exist_ok=True)
