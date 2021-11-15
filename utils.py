@@ -31,7 +31,7 @@ class CustomImageDataset(Dataset):
         # Color
         self.color = [color_dict[x] for x in self.json_df['color'].tolist()]
         # Fabric
-        self.fabric = [fabric_dict[x] for x in self.json_df['texture'].tolist()]
+        self.fabric = [fabric_dict[x] for x in self.json_df['fabric'].tolist()]
 
 
         # Release date
