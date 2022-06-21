@@ -52,7 +52,7 @@ class Attention(nn.Module):
         att = self.full_att(self.tanh(att1 + att2.unsqueeze(1))).squeeze(2) # (batch_size, num_pixels)
         alpha = self.softmax(att)  # (batch_size, num_pixels)
 
-        # att1 al posto di encoder_out, perché serve passare da 600 a 300
+        # att1 al posto di encoder_out, perchÃ© serve passare da 600 a 300
         # Applicare invece linear successivamente ad attention_w_encoding?
         attention_weighted_encoding = (att1 * alpha.unsqueeze(2)).sum(dim=1) # (batch_size, encoder_dim)
 
