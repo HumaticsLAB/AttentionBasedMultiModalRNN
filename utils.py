@@ -30,8 +30,10 @@ class CustomImageDataset(Dataset):
         self.category = [categ_dict[x] for x in self.json_df['category'].tolist()]
         # Color
         self.color = [color_dict[x] for x in self.json_df['color'].tolist()]
+        # self.color = [color_dict[x] for x in self.json_df['exact_color'].tolist()]
         # Fabric
         self.fabric = [fabric_dict[x] for x in self.json_df['fabric'].tolist()]
+        # self.fabric = [fabric_dict[x] for x in self.json_df['texture'].tolist()]
 
 
         # Release date
@@ -47,7 +49,7 @@ class CustomImageDataset(Dataset):
         self.years = self.json_df['year'].tolist()
 
         # Labels
-        new_labels = self.json_df.iloc[:, 1:13].values.tolist()
+        new_labels =self.json_df.iloc[:, :12].values.tolist()
         self.img_labels = pd.Series(new_labels)
         
         # Path
@@ -70,8 +72,11 @@ class CustomImageDataset(Dataset):
         orig_8x8 = cv2.resize(image_2, (8,8), interpolation = cv2.INTER_AREA)
 
         # Image feature
-        feat_path = os.path.join(config.SAVED_FEATURES_PATH, self.path.iloc[idx].replace(".png", ".pth"))
-        img_feature=torch.load(feat_path).squeeze()
+        img_feature = np.array([])
+        if config.USE_SAVED_FEATURES:
+            feat_path = os.path.join(config.SAVED_FEATURES_PATH, self.path.iloc[idx].replace(".png", ".pth"))
+            img_feature=torch.load(feat_path).squeeze()
+        
 
         # Category
         category = self.category[idx]
@@ -138,7 +143,8 @@ def exog_extractor(date, categ, color, fabric):
         gtrend_start = start_date - pd.DateOffset(weeks=52)
         cat_gtrend = gtrends.loc[gtrend_start:start_date][cat][-52:].values
         col_gtrend = gtrends.loc[gtrend_start:start_date][col][-52:].values
-        fab_gtrend = gtrends.loc[gtrend_start:start_date][fab.replace(' ', '')][-52:].values
+        fab_gtrend = gtrends.loc[gtrend_start:start_date][fab][-52:].values
+        # fab_gtrend = gtrends.loc[gtrend_start:start_date][fab.replace(' ','')][-52:].values
 
         cat_gtrend = MinMaxScaler().fit_transform(cat_gtrend.reshape(-1,1)).flatten()
         col_gtrend = MinMaxScaler().fit_transform(col_gtrend.reshape(-1,1)).flatten()
