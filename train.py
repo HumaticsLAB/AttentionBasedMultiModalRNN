@@ -177,10 +177,13 @@ def trainModel(model, train_dataloader):
             if config.USE_SAVED_FEATURES:
                outputs, _ = model(images, exogeneous_params, target=trend, img_feature=img_feature.to(device))
             else:
-               outputs, _ = model(images, categ, color, fabric, exogeneous_params, target=trend)
+               outputs, _ = model(images, exogeneous_params, target=trend)
          #Cross
          elif config.model_types[config.MODEL] == "cross":
-            outputs = model(categ, color, fabric, img_feature.to(device), temporal_features, exogeneous_params, target=trend)
+            if config.USE_SAVED_FEATURES:
+               outputs = model(images, categ, color, fabric, temporal_features, exogeneous_params, target=trend, feats=img_feature.to(device))
+            else:
+               outputs = model(images, categ, color, fabric, temporal_features, exogeneous_params, target=trend)
          #Concat or Residual
          else:
             if config.USE_SAVED_FEATURES:
@@ -245,11 +248,10 @@ def evaluate(model, test_dataloader, show_plots=False):
             outputs, _ = model(images, exogeneous_params)
          #Cross
          elif config.model_types[config.MODEL] == "cross":
-            outputs = model(categ, color, fabric, img_feature.to(device), temporal_features,exogeneous_params)
+            outputs = model(images, categ, color, fabric, temporal_features,exogeneous_params)
          #Concat or Residual
          else:
             outputs, _ = model(images, categ, color, fabric, temporal_features, exogeneous_params)
-
          #show_attn_map(orig_8x8, alphas)
          
          outputs = outputs.cpu()
@@ -269,7 +271,7 @@ def evaluate(model, test_dataloader, show_plots=False):
       outputs = torch.cat(outs, dim=0)
       trend = torch.cat(gts, dim=0)
       mae_mean = criterionL1(outputs.unsqueeze(0), trend).detach().cpu()
-      wMAPE = 100 * torch.sum(torch.sum(torch.abs(trend - outputs), dim=-1)) / torch.sum(gts)
+      wMAPE = 100 * torch.sum(torch.sum(torch.abs(trend - outputs), dim=-1)) / torch.sum(torch.vstack(gts))
       logging.info("mae_mean: {}".format(mae_mean))
       logging.info("wMAPE_mean: {}".format(wMAPE))
 
