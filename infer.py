@@ -18,9 +18,31 @@ from skimage.transform import resize
 from sklearn.preprocessing import MinMaxScaler
 from tqdm import tqdm
 from datetime import datetime
-
+from sklearn.metrics import mean_absolute_error
 
 device = torch.device(config.DEVICE)
+
+
+
+def cal_error_metrics(gt, forecasts):
+    # Absolute errors
+    mae = mean_absolute_error(gt, forecasts)
+    wape = 100 * np.sum(np.sum(np.abs(gt - forecasts), axis=-1)) / np.sum(gt)
+
+    return round(mae, 3), round(wape, 3)
+    
+
+def print_error_metrics(y_test, y_hat, rescaled_y_test, rescaled_y_hat):
+    mae, wape = cal_error_metrics(y_test, y_hat)
+    rescaled_mae, rescaled_wape = cal_error_metrics(rescaled_y_test, rescaled_y_hat)
+    print(mae, wape, rescaled_mae, rescaled_wape)
+
+
+
+
+
+
+
 
 dateTimeObj = datetime.now()
 timestamp = dateTimeObj.strftime("%d-%m-%Y-%H-%M")
@@ -171,7 +193,7 @@ def evaluate(model, test_dataloader, show_plots=False):
             outputs, _ = model(images, exogeneous_params)
          #Cross
          elif config.model_types[config.MODEL] == "cross":
-            outputs = model(categ, color, fabric, img_feature.to(device), temporal_features, exogeneous_params)
+            outputs = model(images, categ, color, fabric, temporal_features,exogeneous_params)
          #Concat or Residual
          else:
             outputs, _ = model(images, categ, color, fabric, temporal_features, exogeneous_params)
@@ -210,11 +232,15 @@ def evaluate(model, test_dataloader, show_plots=False):
                p_bar.update()
             p_bar.close()
 
+
       #loss = criterion(outputs.unsqueeze(0), trend)
-      outputs = torch.cat(outs, dim=0)
-      trend = torch.cat(gts, dim=0)
+      outputs = torch.cat(outs, dim=0)#.detach().cpu().numpy()
+      trend = torch.cat(gts, dim=0)#.detach().cpu().numpy()
+
+      # print_error_metrics(trend, outputs, trend*1065, outputs*1065)
+
       mae_mean = criterionL1(outputs.unsqueeze(0), trend).detach().cpu()
-      wMAPE = 100 * torch.sum(torch.sum(torch.abs(trend - outputs), dim=-1)) / torch.sum(gts)
+      wMAPE = 100 * torch.sum(torch.sum(torch.abs(trend - outputs), dim=-1)) / torch.sum(torch.vstack(gts))
       logging.info("mae_mean: {}".format(mae_mean))
       logging.info("wMAPE_mean: {}".format(wMAPE))
 
@@ -232,7 +258,7 @@ def evaluate(model, test_dataloader, show_plots=False):
    return mae_mean
 
 
-train_dir_name = 'results'
+train_dir_name = os.path.join('AttentionBasedMultiModalRNN','models',model_filename)
 logging.info("Evaluating")
 best_model_file = find_model_file(train_dir_name)
 model.load_state_dict(torch.load(best_model_file, map_location=lambda storage, loc: storage.cuda(0)))
