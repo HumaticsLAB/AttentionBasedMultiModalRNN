@@ -2,6 +2,25 @@ import torch
 import torch.nn as nn
 import random
 import config
+from Inception import Inception
+
+class Encoder(nn.Module):
+    def __init__(self):
+        super(Encoder, self).__init__()
+
+        self.inception = Inception()
+        self.inception.fc = nn.Linear(2048, 1024)
+        self.inception.lastconv = nn.Conv2d(3, 2, kernel_size=3)
+        self.inception.fc1 = nn.Linear(1024, 300)
+
+    def forward(self, x):
+
+        x = self.inception(x)
+        x = x.view(-1, 64, 2048)
+        x = self.inception.fc(x)
+        x = self.inception.fc1(x)
+        
+        return x
 
 class Attention(nn.Module):
 
@@ -22,7 +41,7 @@ class Attention(nn.Module):
         att = self.full_att(self.tanh(att1 + att2.unsqueeze(1))).squeeze(2)  # (batch_size, num_pixels)
         alpha = self.softmax(att)  # (batch_size, num_pixels)
 
-        # att1 al posto di encoder_out, perché serve passare da 600 a 300
+        # att1 al posto di encoder_out, perchÃ© serve passare da 600 a 300
         # Applicare invece linear successivamente ad attention_w_encoding?
         attention_weighted_encoding = (att1 * alpha.unsqueeze(2)).sum(dim=1)  # (batch_size, encoder_dim)
 
@@ -60,6 +79,8 @@ class EncoderDecoder(nn.Module):
         self.category_embeds = nn.Embedding(32, self.D)
         self.color_embeds = nn.Embedding(10, self.D)
         self.fabric_embeds = nn.Embedding(59, self.D)
+
+        self.encoder = Encoder()
         # self.shape_embeds = nn.Embedding(23, self.D)
 
         self.proj_img_att_concat = nn.Linear(self.D * 2, self.D)
@@ -82,15 +103,18 @@ class EncoderDecoder(nn.Module):
         self.teacher_forcing_enabled = use_teacher_forcing
         self.teacher_forcing_ratio = 0.5
 
-    def forward(self, categ: torch.LongTensor, color: torch.LongTensor, fabric:  torch.LongTensor, feats: torch.FloatTensor, temporal_info: torch.FloatTensor, exogeneous_params: torch.LongTensor,
-                target: torch.FloatTensor = None) -> torch.Tensor:
+    def forward(self, input_batch: torch.FloatTensor, categ: torch.LongTensor, color: torch.LongTensor, fabric:  torch.LongTensor, temporal_info: torch.FloatTensor, exogeneous_params: torch.LongTensor,
+                target: torch.FloatTensor = None, feats: torch.FloatTensor = None) -> torch.Tensor:
 
-        bs = feats.size(0)
+        bs = input_batch.size(0)
         if target is not None:
             target = target.t()
 
         # Image Embedding
-        inc_feats = feats
+        if feats is None:
+            inc_feats = self.encoder(input_batch)
+        else:
+            inc_feats = feats
 
         # Word Embedding
         categ_embed = self.category_embeds(categ)
@@ -150,5 +174,3 @@ class EncoderDecoder(nn.Module):
 
         outputs = outputs.transpose(0, 1)
         return outputs.squeeze()
-
-
